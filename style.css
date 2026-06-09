@@ -78,6 +78,9 @@ p { margin: 0 0 1rem; }
 a { color: var(--ink); }
 strong, b { color: var(--ink); font-weight: 400; }
 
+::selection { background: var(--ink); color: var(--paper); }
+:focus-visible { outline: 2.5px dashed var(--ink); outline-offset: 4px; border-radius: 6px; }
+
 /* ── Hand-drawn frame scaffold (painted by sketch.js) ── */
 [data-sketch] {
   position: relative;
@@ -152,6 +155,8 @@ strong, b { color: var(--ink); font-weight: 400; }
 .wordmark {
   position: relative;
   display: inline-block;
+  /* replace the UA's hefty h1 margins: just enough below for the underline (-0.22em) to clear */
+  margin: 0 0 0.42em;
   font-family: var(--font-logo);
   color: var(--ink);
   font-size: clamp(4.2rem, 2.5rem + 9vw, 8rem);
@@ -175,7 +180,7 @@ strong, b { color: var(--ink); font-weight: 400; }
   vector-effect: non-scaling-stroke;
 }
 .hero .tagline {
-  margin: 1.7rem auto 0;
+  margin: 0.9rem auto 0;
   max-width: 30ch;
   font-size: clamp(1.2rem, 1rem + 1vw, 1.6rem);
   color: var(--graphite);
@@ -228,7 +233,7 @@ strong, b { color: var(--ink); font-weight: 400; }
 .doodle--coin    { width: 44px; height: 44px; top: 30%; right: max(0.75rem, calc(50% - 30rem)); transform: rotate(8deg); color: var(--graphite); }
 .doodle--spark   { width: 30px; height: 30px; top: 4%; right: max(3rem, calc(50% - 25rem)); }
 .doodle--coffee  { width: 50px; height: 56px; bottom: 2%; left: max(1.25rem, calc(50% - 29rem)); transform: rotate(6deg); color: var(--graphite); }
-@media (max-width: 720px) { .doodle { display: none; } }
+@media (max-width: 760px) { .doodle { display: none; } }
 
 /* ════════════════════════ SECTION HEADERS ════════════════════════ */
 section { margin: 0; }
@@ -336,7 +341,7 @@ section { margin: 0; }
   gap: 1.5rem;
   align-items: stretch;
 }
-@media (max-width: 720px) { .notes { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .notes { grid-template-columns: 1fr; } }
 
 .note { padding: clamp(1.4rem, 1rem + 1.6vw, 2rem); }
 .note--problem { transform: rotate(-0.6deg); }
@@ -356,6 +361,24 @@ section { margin: 0; }
 .note .you {
   color: var(--ink);
   background: linear-gradient(transparent 60%, rgba(38, 38, 38, 0.13) 60%);
+}
+.note .note-list {
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--graphite);
+}
+.note .note-list li {
+  position: relative;
+  padding-left: 1.4em;
+  line-height: 1.55;
+}
+.note .note-list li + li { margin-top: 0.4rem; }
+.note .note-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0.1em;
+  color: var(--ink);
 }
 
 /* ════════════════════════ FEATURES (핵심 기능) ════════════════════════ */
@@ -436,19 +459,25 @@ section { margin: 0; }
 }
 .arrow .ic { font-size: 1.45rem; }
 @media (max-width: 760px) {
-  .flow { flex-direction: column; align-items: center; gap: 0.4rem; }
-  .step { flex: none; width: 100%; max-width: 250px; padding: 0.9rem 1rem; }
+  .flow { flex-direction: column; align-items: center; gap: 0.35rem; }
+  .step { flex: none; width: 100%; max-width: 250px; padding: 0.55rem 1rem; }
+  /* lay each step out as a compact row (badge · icon · label) so the
+     six-step column doesn't stretch the page */
+  .step > .sk__content { flex-direction: row; justify-content: center; gap: 0.85rem; }
+  /* equal label boxes keep the badge/icon column aligned from card to card */
+  .step .stitle { text-align: left; min-width: 4.6em; }
   .arrow { transform: rotate(90deg); }
 }
 
 /* ════════════════════════ TECH STACK (기술 스택) ════════════════════════ */
 .stack { margin-top: var(--gap); }
+/* groups size to their chips so a lone chip doesn't strand in a wide column */
 .stack-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.6rem 3.4rem;
 }
-@media (max-width: 720px) { .stack-grid { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .stack-grid { flex-direction: column; gap: 1.5rem; } }
 .stack-group h3 {
   font-size: 1.05rem;
   color: var(--graphite);
