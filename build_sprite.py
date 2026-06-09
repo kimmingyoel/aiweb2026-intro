@@ -35,6 +35,7 @@ ICONS = {
     "i-person": "User_Circle.svg",   # was a custom person glyph
     "i-box": "Circle_Stack.svg",     # was a custom storage glyph
     "i-arrow": "Arrow_Right.svg",
+    "i-check": "Check.svg",
 }
 
 PATH_RE = re.compile(r"<path\b([^>]*?)/>", re.S)

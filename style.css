@@ -428,14 +428,15 @@ section { margin: 0; }
 }
 .note .note-list li {
   position: relative;
-  padding-left: 1.4em;
+  padding-left: 1.5em;
   line-height: 1.55;
 }
 .note .note-list li + li { margin-top: 0.4rem; }
-.note .note-list li::before {
-  content: "✓";
+.note .note-list li .ic {
   position: absolute;
-  left: 0.1em;
+  left: 0;
+  top: 0.18em;
+  font-size: 1.05em;
   color: var(--ink);
 }
 
