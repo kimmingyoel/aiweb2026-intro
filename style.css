@@ -96,7 +96,7 @@ strong, b { color: var(--ink); font-weight: 400; }
 /* sketch.js reparents a framed box's children into .sk__content, so any flex
    layout intended for the box's direct children must target the wrapper. */
 .btn > .sk__content { display: inline-flex; align-items: center; gap: 0.55rem; }
-.step > .sk__content { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; width: 100%; }
+.step > .sk__content { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; height: 100%; }
 .feature > .sk__content { display: flex; flex-direction: column; gap: 0.55rem; height: 100%; }
 .sidx > .sk__content { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
 
@@ -393,7 +393,6 @@ section { margin: 0; }
 
 /* ════════════════════════ PROBLEM + USERS (pinned notes) ════════════════════════ */
 .notes {
-  margin-top: var(--gap);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
@@ -489,25 +488,33 @@ section { margin: 0; }
   flex-wrap: nowrap;
   align-items: stretch;
   justify-content: center;
-  gap: 0.3rem;
+  gap: 0.45rem;
+  margin-top: 1.1rem; /* room for the number badges overhanging the card tops */
 }
 .step {
   flex: 1 1 0;
   min-width: 0;
-  padding: 0.7rem 0.5rem 0.65rem;
+  padding: 1.15rem 0.5rem 0.95rem;
   text-align: center;
 }
-/* number badge sits in-flow at the top of the card */
+/* gentle pinned-note tilt, like the feature cards (children 1,5,9 / 3,7,11 are
+   the step cards; even children are the arrows) */
+.flow .step:nth-child(4n+1) { transform: rotate(-0.7deg); }
+.flow .step:nth-child(4n+3) { transform: rotate(0.7deg); }
+/* number badge straddles the card's top edge so the icon owns the interior */
 .step .sidx {
-  position: relative;
-  width: 25px;
-  height: 25px;
-  font-size: 0.88rem;
+  position: absolute;
+  top: -2rem;  /* relative to .sk__content (inset by the card's 1.15rem padding) → centred on the edge */
+  left: 50%;
+  margin-left: -12px;
+  width: 24px;
+  height: 24px;
+  font-size: 0.85rem;
   color: var(--paper);
   flex: none;
 }
-.step .ic { font-size: 1.95rem; color: var(--ink); }
-.step .stitle { font-size: 0.92rem; color: var(--ink); line-height: 1.2; }
+.step .ic { font-size: 2.2rem; color: var(--ink); }
+.step .stitle { font-size: 0.98rem; color: var(--ink); line-height: 1.25; }
 .arrow {
   align-self: center;
   display: inline-flex;
@@ -518,11 +525,14 @@ section { margin: 0; }
 }
 .arrow .ic { font-size: 1.45rem; }
 @media (max-width: 760px) {
-  .flow { flex-direction: column; align-items: center; gap: 0.35rem; }
+  .flow { flex-direction: column; align-items: center; gap: 0.35rem; margin-top: 0; }
   .step { flex: none; width: 100%; max-width: 250px; padding: 0.55rem 1rem; }
   /* lay each step out as a compact row (badge · icon · label) so the
      six-step column doesn't stretch the page */
   .step > .sk__content { flex-direction: row; justify-content: center; gap: 0.85rem; }
+  /* badge rejoins the row flow on mobile — keep it `relative`: it anchors its
+     own painted .sk__bg (absolute, inset 0), which would otherwise fill the card */
+  .step .sidx { position: relative; top: auto; left: auto; margin-left: 0; }
   /* equal label boxes keep the badge/icon column aligned from card to card */
   .step .stitle { text-align: left; min-width: 4.6em; }
   .arrow { transform: rotate(90deg); }
