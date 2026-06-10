@@ -54,7 +54,7 @@ body {
   background-color: var(--paper);
   color: var(--graphite);
   font-family: var(--font-hand);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.6;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -162,7 +162,6 @@ strong, b { color: var(--ink); font-weight: 400; }
   font-size: clamp(4.2rem, 2.5rem + 9vw, 8rem);
   line-height: 0.9;
   letter-spacing: 0.02em;
-  transform: rotate(-1.2deg);
   animation: wm-rise 0.55s ease-out backwards;
 }
 /* comic-style emphasis dashes radiating off the top corners */
@@ -223,13 +222,13 @@ strong, b { color: var(--ink); font-weight: 400; }
 }
 .hero .kbd-id {
   margin-top: 0.4rem;
-  font-size: 0.98rem;
+  font-size: 1.05rem;
   color: var(--ash);
   animation: hero-rise 0.5s ease-out 0.2s backwards;
 }
 
 @keyframes wm-rise {
-  from { opacity: 0; transform: rotate(-1.2deg) translateY(14px); }
+  from { opacity: 0; transform: translateY(14px); }
 }
 @keyframes hero-rise {
   from { opacity: 0; transform: translateY(12px); }
@@ -270,36 +269,15 @@ strong, b { color: var(--ink); font-weight: 400; }
 .btn-primary .ic { font-size: 1.1em; }   /* play reads heavier than the </> — trim it */
 .btn-secondary { color: var(--ink); }
 
-/* scattered decorative doodles in the open margins */
-.doodle {
-  position: absolute;
-  color: var(--ink);
-  pointer-events: none;
-  opacity: 0.9;
-  animation: doodle-in 0.6s ease-out 0.5s backwards;
-}
-.doodle--coin   { animation-delay: 0.62s; }
-.doodle--spark  { animation-delay: 0.74s; }
-.doodle--coffee { animation-delay: 0.86s; }
-@keyframes doodle-in {
-  from { opacity: 0; }
-}
-.doodle svg { display: block; width: 100%; height: 100%; }
-/* offsets hug the centred content column (not the viewport edge) so the
-   doodles stay composed with the hero on wide screens */
-.doodle--receipt { width: 54px; height: 80px; top: 8%; left: max(0.5rem, calc(50% - 31rem)); transform: rotate(-11deg); }
-.doodle--coin    { width: 44px; height: 44px; top: 30%; right: max(0.75rem, calc(50% - 30rem)); transform: rotate(8deg); color: var(--graphite); }
-.doodle--spark   { width: 30px; height: 30px; top: 4%; right: max(3rem, calc(50% - 25rem)); }
-.doodle--coffee  { width: 50px; height: 56px; bottom: 2%; left: max(1.25rem, calc(50% - 29rem)); transform: rotate(6deg); color: var(--graphite); }
-@media (max-width: 760px) { .doodle { display: none; } }
-
 /* ════════════════════════ SECTION HEADERS ════════════════════════ */
 section { margin: 0; }
 .sec-head {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  margin-bottom: 1.6rem;
+  /* the underline hangs ~0.4em below the h2 box, so the visual gap is
+     roughly 0.7rem less than this — keep it generous */
+  margin-bottom: 2.4rem;
 }
 .sec-head h2 {
   font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem);
@@ -335,11 +313,12 @@ section { margin: 0; }
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--graphite);
   margin-bottom: 0.7rem;
 }
-.summary-card .eyebrow .ic { color: var(--ink); font-size: 1.5rem; }
+/* leading icons inherit their text's colour — never recolour them apart */
+.summary-card .eyebrow .ic { font-size: 1.5rem; }
 .summary-card p {
   font-size: clamp(1.3rem, 1.05rem + 1.1vw, 1.75rem);
   line-height: 1.5;
@@ -365,16 +344,24 @@ section { margin: 0; }
   height: auto;
   border-radius: 6px;
 }
-/* washi-tape corners — live inside .shot (anchored to its .sk__content, which
-   is inset by the 12px frame padding) so they stick to the photo card even
-   when the caption drops below it on small screens */
+/* washi-tape strips — hand-drawn SVG in the icon set's pen style: serrated
+   dispenser-cut ends, wobbly edges. One over the top edge, one over the
+   bottom edge of the photo. They live inside .shot (anchored to its
+   .sk__content, which is inset by the 12px frame padding) so they stick to
+   the photo card even when the caption drops below it on small screens */
 .tape {
   position: absolute;
   width: 86px;
   height: 26px;
-  background: var(--alpha);
-  border: 1px solid rgba(38, 38, 38, 0.22);
   z-index: 3;
+}
+.tape svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.tape path {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
 }
 .tape--tl { top: -24px; left: 16px; transform: rotate(-7deg); }
 .tape--br { bottom: -22px; right: 20px; transform: rotate(-5deg); }
@@ -382,7 +369,7 @@ section { margin: 0; }
   position: absolute;
   right: -8px;
   bottom: -2.6rem;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--graphite);
   transform: rotate(-3deg);
 }
@@ -401,13 +388,11 @@ section { margin: 0; }
 @media (max-width: 760px) { .notes { grid-template-columns: 1fr; } }
 
 .note { padding: clamp(1.4rem, 1rem + 1.6vw, 2rem); }
-.note--problem { transform: rotate(-0.6deg); }
-.note--users { transform: rotate(0.7deg); }
 .note .note-label {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--ink);
   margin-bottom: 0.7rem;
 }
@@ -436,7 +421,6 @@ section { margin: 0; }
   left: 0;
   top: 0.18em;
   font-size: 1.05em;
-  color: var(--ink);
 }
 
 /* ════════════════════════ FEATURES (핵심 기능) ════════════════════════ */
@@ -454,8 +438,6 @@ section { margin: 0; }
   flex-direction: column;
   gap: 0.55rem;
 }
-.feature:nth-child(1) { transform: rotate(-0.8deg); }
-.feature:nth-child(3) { transform: rotate(0.8deg); }
 .feature .fcap {
   display: flex;
   align-items: center;
@@ -476,7 +458,7 @@ section { margin: 0; }
   color: var(--ash);
 }
 .feature h3 { font-size: 1.32rem; margin: 0; }
-.feature p { color: var(--graphite); margin: 0; font-size: 1.02rem; line-height: 1.6; }
+.feature p { color: var(--graphite); margin: 0; line-height: 1.6; }
 
 /* ════════════════════════ PIPELINE (파이프라인) ════════════════════════
    One straight left-to-right row of step cards (number → icon → label), arrows
@@ -497,10 +479,6 @@ section { margin: 0; }
   padding: 1.15rem 0.5rem 0.95rem;
   text-align: center;
 }
-/* gentle pinned-note tilt, like the feature cards (children 1,5,9 / 3,7,11 are
-   the step cards; even children are the arrows) */
-.flow .step:nth-child(4n+1) { transform: rotate(-0.7deg); }
-.flow .step:nth-child(4n+3) { transform: rotate(0.7deg); }
 /* number badge straddles the card's top edge so the icon owns the interior */
 .step .sidx {
   position: absolute;
@@ -514,7 +492,7 @@ section { margin: 0; }
   flex: none;
 }
 .step .ic { font-size: 2.2rem; color: var(--ink); }
-.step .stitle { font-size: 0.98rem; color: var(--ink); line-height: 1.25; }
+.step .stitle { font-size: 1.05rem; color: var(--ink); line-height: 1.25; }
 .arrow {
   align-self: center;
   display: inline-flex;
@@ -548,25 +526,23 @@ section { margin: 0; }
 }
 @media (max-width: 760px) { .stack-grid { flex-direction: column; gap: 1.5rem; } }
 .stack-group h3 {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--graphite);
   margin: 0 0 0.85rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
 }
-.stack-group h3 .ic { color: var(--ink); font-size: 1.45rem; }
+.stack-group h3 .ic { font-size: 1.45rem; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .chip {
   display: inline-flex;
   align-items: center;
   padding: 0.4rem 0.95rem;
-  font-size: 1.02rem;
+  font-size: 1.1rem;
   color: var(--ink);
   border-radius: 10px;
 }
-.chip:nth-child(even) { transform: rotate(-1.2deg); }
-.chip:nth-child(odd) { transform: rotate(1deg); }
 
 /* ════════════════════════ COMMENTS (giscus) ════════════════════════ */
 .comments { margin-top: var(--gap); }
@@ -580,10 +556,10 @@ section { margin: 0; }
   align-items: center;
   gap: 0.5rem;
   color: var(--ash);
-  font-size: 0.98rem;
+  font-size: 1.05rem;
   margin-bottom: 1.4rem;
 }
-.comments .react-hint .ic { color: var(--graphite); font-size: 1.4rem; }
+.comments .react-hint .ic { font-size: 1.4rem; }
 .giscus, .giscus-frame { width: 100%; min-height: 200px; }
 
 /* ════════════════════════ FOOTER ════════════════════════ */
@@ -597,7 +573,7 @@ footer .foot-mark {
   font-size: 1.6rem;
   color: var(--ink);
 }
-footer p { color: var(--ash); font-size: 0.92rem; margin: 0.6rem 0 0; }
+footer p { color: var(--ash); font-size: 1rem; margin: 0.6rem 0 0; }
 footer a { color: var(--graphite); text-decoration: none; border-bottom: 1.5px solid var(--alpha); }
 footer a:hover { color: var(--ink); }
 
